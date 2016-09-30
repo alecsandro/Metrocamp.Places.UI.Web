@@ -1,0 +1,108 @@
+﻿@using Metrocamp.Places.UI.Web.Models
+
+@model List<Item>
+
+
+@{
+    ViewBag.Title = "Pesquisar Lugares";
+    Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
+}
+
+<h1>O que você procura?</h1>
+
+<p class="p-b-1">Informe abaixo o endereço desejado e selecione o tipo de local que deseja encontrar:</p>
+
+
+@using (Html.BeginForm("Index","Places",FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Endereço:</label>
+                <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Informe o endereço completo">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Tipo de local:</label>
+                <select class="form-control" id="tipo" name="tipo">
+                    <option value="">Selecione o tipo de local que deseja encontrar</option>
+                    <option value="food">Alimentação</option>
+                    <option value="bank">Banco</option>
+                    <option value="bar">Bar</option>
+                    <option value="school">Escola</option>
+                    <option value="pharmacy">Farmácia</option>
+                    <option value="church">Igreja</option>
+                    <option value="gas_station">Posto de Combustíveis</option>
+                    
+                    <option value="zoo">Zoológico</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 p-t-1">
+            <button type="submit" class="btn btn-lg btn-default">Pesquisar</button>
+        </div>
+    </div>
+}
+
+
+
+@{
+    //se realizou a pesquisa, retorna os resultados
+    if (ViewBag.Pesquisa == "S")
+    {
+        //se ocorrer algum erro, exibe a mensagem
+        if (TempData["mensagem-erro"] != null || TempData["mensagem-sucesso"] != null)
+        {
+            Html.RenderPartial("_PartialMensagem");
+        }
+
+        if (Model.Count > 0)
+        {
+            <p>&nbsp;</p>
+            <table class="table table-hover table-condensed table-responsive">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Local</th>
+                    <th>Endereço</th>
+                    <th>&nbsp;</th>
+                </tr>
+                @foreach (var estabelecimento in Model)
+                {
+                <tr>
+                    <td><img src="@estabelecimento.icone" width="30" /></td>
+                    <td>
+                        @{
+                            byte[] bytes1 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(estabelecimento.name);
+                            var nome = System.Text.Encoding.UTF8.GetString(bytes1);
+                        }                    
+                        <strong>@nome</strong>
+                    </td>
+                    <td>
+                        @{
+                            byte[] bytes2 = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(estabelecimento.logradouro);
+                            var endereco = System.Text.Encoding.UTF8.GetString(bytes2);
+                        }
+                        @endereco
+                    </td>
+                    <td><a href="http://maps.google.com/?q=@endereco" target="_blank" class="btn btn-default">Ver no Mapa <img src="~/Content/Images/icone-google-maps.png" height="30" /> </a></td>
+                </tr>
+                }
+            </table>
+            <p>&nbsp;</p>
+            <p>
+                <strong>Locais encontrados:</strong> @Model.Count
+            </p>
+
+        }
+        else
+        {
+            <p>&nbsp;</p>
+            <p>
+                <div class="alert alert-danger" role="alert">nenhum local encontrado</div>
+            </p>
+        }
+    }
+}

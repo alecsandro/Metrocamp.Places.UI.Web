@@ -1,0 +1,59 @@
+﻿.sobre img {
+    width:100px;
+}
+
+.weather-header {
+    color:white;
+    padding:30px;
+    border-radius:8px;
+}
+
+.weather-header.clear_night { background-color: #000019; }
+.weather-header.clear_night.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/clear_night.jpg") top center no-repeat fixed;
+}
+
+.weather-header.clear_day { background-color: #2d6ed7; }
+.weather-header.clear_day.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/clear_day.jpg") top center no-repeat fixed;
+}
+
+.weather-header.cloudly_night { background-color: #234167; }
+.weather-header.cloudly_night.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/cloudly_night.jpg") top center no-repeat fixed;
+}
+
+.weather-header.cloudly_day { background-color: #147AB1; }
+.weather-header.cloudly_day.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/cloudly_day.jpg") top center no-repeat fixed;
+}
+
+.weather-header.cloud { background-color: #747B76; }
+.weather-header.cloud.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/cloud.jpg") top center no-repeat fixed;
+}
+
+.weather-header.storm { background-color: #0E264A; }
+.weather-header.storm.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/storm.jpg") top center no-repeat fixed;
+}
+
+.weather-header.rain { background-color: #74796E; }
+.weather-header.rain.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/rain.jpg") top center no-repeat fixed;
+}
+
+.weather-header.fog { background-color: #CCD2D4; }
+.weather-header.fog.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/fog.jpg") top center no-repeat fixed;
+}
+
+.weather-header.snow { background-color: #50719A; }
+.weather-header.snow.image {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/snow.jpg") top center no-repeat fixed;
+}
+
+.weather-header.hail { background-color: #839ABC; }
+.weather-header.hail {
+  background: url("http://hgbrasil.com/static/weather/backgrounds/hail.jpg") top center no-repeat fixed;
+}

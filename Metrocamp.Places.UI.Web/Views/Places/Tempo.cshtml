@@ -1,0 +1,134 @@
+﻿@using Metrocamp.Places.UI.Web.Models
+
+@model RootWeather
+
+
+@{
+    ViewBag.Title = "Previsão do Tempo";
+    Layout = "~/Views/Shared/_LayoutPadrao.cshtml";
+}
+
+<h1>Previsão do Tempo</h1>
+
+<p class="p-b-1">Selecione abaixo a cidade desejada para consultar a previsão do tempo:</p>
+
+@using (Html.BeginForm("Tempo", "Places", FormMethod.Post, new { @name = "form-tempo", @id = "form-tempo" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Cidade:</label>
+                <select class="form-control" id="cidade" name="cidade" onchange="pesquisar()">
+                    <option value="">Selecione a cidade</option>
+                    <option value="">&nbsp;</option>
+                    <option value="BRXX0146">Brasília</option>
+                    <option value="BRXX0050">Campinas</option>
+                    <option value="BRXX0079">Curitiba</option>
+                    <option value="BRXX0195">Recife</option>
+                    <option value="BRXX0232">São Paulo</option>
+                    <option value="BRXX0237">Sorocaba</option>
+                </select>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $("#cidade").change(function () {
+        if ($("#cidade").val() != "") {
+            $("#form-tempo").submit();
+        }
+    });
+</script>
+
+
+@{
+    //se realizou a pesquisa, retorna os resultados
+    if (ViewBag.Pesquisa == "S")
+    {
+        //se ocorrer algum erro, exibe a mensagem
+        if (TempData["mensagem-erro"] != null || TempData["mensagem-sucesso"] != null)
+        {
+            Html.RenderPartial("_PartialMensagem");
+        }
+
+        <p>&nbsp;</p>
+        <h3 class="weather-header image @Model.results.condition_slug">Tempo agora em <strong>@Model.results.city_name</strong></h3>
+        <p>&nbsp;</p>
+        <table class="table table-condensed table-responsive">
+            <tr>
+                <td class="col-lg-4" style="border:none;"><img src="@String.Format("http://assets.hgbrasil.com/weather/images/{0}.png", Model.results.img_id)" height="180" width="250" /></td>
+                <td class="col-lg-4" style="border:none;">
+                    <h1><strong>@Model.results.temp ºC</strong></h1>
+                    @Model.results.description
+                </td>
+                <td class="col-lg-4" style="border:none;">
+                    <strong>Nascer do Sol:</strong> @Model.results.sunrise <br />
+                    <strong>Por do Sol:</strong> @Model.results.sunset<br />
+                    <strong>Humidade:</strong> @Model.results.humidity % <br />
+                    <strong>Vento:</strong> @Model.results.wind_speedy <br /><br />
+                    Atualizado em @Model.results.date às @Model.results.time
+                </td>
+                
+            </tr>
+        </table>
+
+        if (Model.results.temp != null)
+        {
+            <p>&nbsp;</p>
+            <h4>Previsão para <strong>@Model.results.city_name</strong> nos próximos dias</h4>
+            <p>&nbsp;</p>
+
+            <table class="table table-bordered">
+                <tr>
+                @foreach (var previsao in Model.results.forecast)
+                {
+                    <td class="text-center">
+
+                        <table>
+                            <tr>
+                                <td>
+                                    @{
+                                        byte[] bytes = System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(previsao.weekday);
+                                        var texto = System.Text.Encoding.UTF8.GetString(bytes);
+                                    }                                    
+                                    <h4>@texto</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small">@previsao.date</td>
+                            </tr>                            
+                            <tr>
+                                <td style="color:#BBB">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ff6a00;">
+                                    <span class="glyphicon glyphicon-arrow-up"></span> @previsao.max ºC
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:#0094ff;">
+                                    <span class="glyphicon glyphicon-arrow-down"></span> @previsao.min ºC
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:#BBB">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="@String.Format("/Content/Images/temp/{0}.png", previsao.condition)" height="50" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="small text-muted">
+                                    @previsao.description
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                }
+                </tr>
+            </table>
+        }
+    }
+}

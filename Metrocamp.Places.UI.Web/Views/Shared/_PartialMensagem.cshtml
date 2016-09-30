@@ -1,0 +1,14 @@
+﻿<div class="row">
+    <div class="col-lg-12 p-t-3 p-b-3">
+        @if (TempData["mensagem-sucesso"] != null)
+        {
+            <div class="alert alert-success" role="alert">@TempData["mensagem-sucesso"]
+            </div>
+        }
+        else if (TempData["mensagem-erro"] != null)
+        {
+            <div class="alert alert-danger" role="alert">@TempData["mensagem-erro"]
+            </div>
+        }
+    </div>
+</div>
